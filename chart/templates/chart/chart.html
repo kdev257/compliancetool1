@@ -1,0 +1,32 @@
+<div>    
+    <canvas id="myChart"
+    aria-label='chart'
+    role = 'img'
+    width = "500"
+    height = "500"
+    ></canvas>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <script>
+    const ctx = document.getElementById('myChart');
+ 
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: [{% for add in addition %}'{{add.issue}}',{% endfor %}], 
+        datasets: [{            
+          data: [{% for add in addition %}{{add.addition}},{% endfor %}],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive:false,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>

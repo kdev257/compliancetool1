@@ -1,0 +1,59 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}            
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Proceeding Type</th>
+                        <th scope="col">Notice No</th>
+                        <th scope="col">Notice Date</th>
+                        <th scope="col">Notice Type</th>
+                        {% comment %} <th scope="col">Description</th> {% endcomment %}
+                        <th scope="col">Appear_By_Date</th>
+                        {% comment %} <th scope="col">Upload</th> {% endcomment %}
+                        <th scope="col">Unit</th>
+                        <th scope="col">Appearance_Date</th>
+                        <th scope="col">Hearing_Detail</th>
+                        <th scope="col">Is_Complete</th>
+                        <th scope="col" class="text-center">View</th>
+                        </div>
+                      </tr>
+                    </thead>
+                    {% for a  in adj_data %}
+                   <tbody>
+                      <tr>
+                                  
+                        <th scope="row">{{notice_data.proceeding}}</th>
+                        <td>{{notice_data.year}}</td>
+                        <td>{{notice_data.proceeding_type}}</td>
+                        <td>{{notice_data.notice_no}}</td>
+                        <td>{{notice_data.notice_date}}</td>
+                        <td>{{notice_data.notice_type}}</td>
+                <td>{{notice_data.date_of_appearance}}</td>                       
+                        <td>{{notice_data.unit}}</td>                        
+                        <td>{{a.hearing_date}}</td>
+                        <td>{{a.hearing_gist}}</td>
+                        <td>{{a.is_complete}}</td>
+                        {% if a.upload_url %}
+                        <td><a href="{{a.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                        {% else %}
+                        <td>No File</td>
+                        {% endif %}
+                        {% endfor %}                        
+                       </tr>                         
+                 </tbody>
+              </table>
+              <center><a href="{% url 'action' pk  %}"><button type="submit" class="btn btn-primary">Back</button></center></a>
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock  %}
+
+    
+    

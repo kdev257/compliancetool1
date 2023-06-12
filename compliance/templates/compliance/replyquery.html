@@ -1,0 +1,29 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+
+{% block title %}Reply{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form method="POST" novalidate enctype="multipart/form-data">
+                <h1> Welcome to reply Page</h1>
+                {% csrf_token %}
+                {{form.as_p}} 
+         <div>
+            <div class="sm-col-12 text-center">
+                  <button type="submit" class="btn btn-primary">Reply</button>
+                  <a href="{% url 'showquerydata' %}" class='btn btn-primary'>showquery</a>
+             </div>                        
+             </div>
+          </form>
+                        
+            <br><br><br><br><br> 
+        </div>
+    </div>
+</div>
+   
+{% endblock main-content %}
+    
+    

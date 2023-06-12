@@ -1,0 +1,30 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<body>
+    <center><h5 class='text text-warning'>The Date of Appearance in this matter is {{la.next_date}}|First Date {{pi.date_of_appearance}}</h5></center>
+    <div class='container'>
+        <div class='row'>
+            <div class='sm-col-6 offset-2'>
+                <form method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                    <table>
+                        <h6>{{ form.as_table }}<h6>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+             <div>
+                <div class="sm-col-12 text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>                        
+                 </div>
+              </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock main-content %}
+</html>

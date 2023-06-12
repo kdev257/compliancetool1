@@ -1,0 +1,59 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+            <div class='text-right'>
+            <button class='btn btn-lg btn-warning'><a class='fg-danger' href="{% url 'create_notice' %}
+            ">Add Notice</a></button>
+          </div>
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Proceeding Type</th>
+                        <th scope="col">Notice No</th>
+                        <th scope="col">Notice Date</th>
+                        <th scope="col">Notice Type</th>
+                        {% comment %} <th scope="col">Description</th> {% endcomment %}
+                        <th scope="col">Date of Appearance</th>
+                        {% comment %} <th scope="col">Upload</th> {% endcomment %}
+                        <th scope="col">Unit</th>
+                        <th scope="col">Status</th>                        
+                        <div>
+                        <th scope="col" class="text-center">Action</th>
+                        </div>
+                      </tr>
+                    </thead>
+                   <tbody>
+                      <tr>
+                          {% if notice_data %}
+                          {% for n in notice_data %}                         
+                        <th scope="row">{{n.proceeding}}</th>
+                        <td>{{n.year}}</td>
+                        <td>{{n.proceeding_type}}</td>
+                        <td>{{n.notice_no}}</td>
+                        <td>{{n.notice_date}}</td>
+                        <td>{{n.notice_type}}</td>
+                        <td>{{n.date_of_appearance}}</td>                       
+                        <td>{{n.unit}}</td>
+                        <td>{{n.status}}</td>
+                        <td><a href="{{n.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+
+                        <td><a href="{% url 'action' n.proceeding %}"><img height=20px, src="{% static 'compliance/img/edit.png' %}" alt="edit"></a></td>
+                        
+                      </tr>
+                         {% endfor %}
+                         {% endif %}
+                     </tbody>
+                  </table>
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock  %}
+
+    
+    

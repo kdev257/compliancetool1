@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<body>    
+        <center><h5 class='text text-warning'>The Total Demand under this order is {{ta}}</h5></center>
+        <center><p class='text text-primary'><h5>{{ba}}</h5></p></center>
+          <div class='container'>
+            <div class="row">
+             <div class="col-md-12 offset-0.5">
+                <form  method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                    <table>
+                      <h6>{{ form1.as_table }}<h6>
+                          <tr>
+                              <td>&nbsp;</td>
+                          </tr>
+                      </table>
+  
+               <center><h5 class='text text-warning'>Pls Enter Actual Addition Data As Assessment Order</h5></center>
+               <table>
+                <h6>{{ form.as_table }}<h6>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+           <center> <button type="submit" class="btn btn-primary btn-lg">Submit</button></center>
+               <center><button type="submit" class="btn btn-warning btn-lg"> <a href="{% url 'view_notice_advisor' %}">Home</a></button></center>
+            </div>            
+         </div>        
+        </div>    
+    </form>
+</body>
+{% endblock main-content %}
+</html>

@@ -1,0 +1,39 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<center><h5 class ='text text-warning'>Schedule hearing this appeal is {{la}}</h5></center>
+<body>    
+    <div class='container'>
+        <div class='row'>
+            <div class='col-sm-10 col-md-10 offset-2'>
+                <form method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                   <h5>{{ form.as_p }}</h5>  
+             <div>
+                <div class="sm-col-12 text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>                        
+                 </div>
+              </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+<!-- Your HTMX code -->
+<script>
+  // Add an htmx trigger to the is_complete field that updates the next_date field
+  document.querySelector('#id_is_complete').addEventListener('change', function() {
+    var nextDateField = document.querySelector('#id_next_date');
+    if (this.checked) {
+      // If is_complete is checked, hide the next_date field
+      nextDateField.hidden = true;
+    } else {
+      // Otherwise, show the next_date field
+      nextDateField.hidden = false;
+    }
+  });
+</script>
+</body>
+{% endblock main-content %}
+</html>

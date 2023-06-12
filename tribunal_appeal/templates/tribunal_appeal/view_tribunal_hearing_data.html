@@ -1,0 +1,47 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %} 
+<div class='text-right'>
+  <a href="{% url 'tribunal_home' pk %}"><button class= 'btn btn-warning btn-lg text-success text-bolder'><h3>Tribunal Home</h3></button></a>
+</div>
+        <div class="col-sm-12">
+            <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Hearing Date</th>
+                    <th scope="col">Hearing Summary</th>
+                    <th scope="col">is_Complete</th>
+                    <th scope="col">next_Date</th>
+                    <th scope="col">View</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for notice in notice %}
+                  <tr>
+                    {% comment %} <th scope="row">1</th> {% endcomment %}
+                    <td>{{notice.id}}</td>
+                    <td>{{notice.order}}</td>
+                    <td>{{notice.hearing_date}}</td>
+                    <td>{{notice.hearing_gist}}</td>
+                    <td>{{notice.is_complete}}</td>
+                    <td>{{notice.next_date}}</td>
+                    {% if notice.upload.url is not None %} 
+                    <td><a href="{{notice.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                        {% else %}
+                        <td>No File</td>
+                        {% endif %}
+               
+                    {% comment %} <td><a href="{% url 'update_appeal_action' pk add.id %}"><img height=20px, src="{% static 'compliance/img/edit.png' %}" alt=""></a></td> {% endcomment %}
+                    {% endfor %}
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+{% endblock  %}
+
+    
+    

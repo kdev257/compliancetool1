@@ -1,0 +1,46 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}            
+            <div class="text text-center col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Order No</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Demand</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Recommended</th>
+                        <th scope="col">Approved</th>
+                        <th scope="col">view</th>                        
+                        <div>
+                        <th scope="col" class="text-center">Action</th>
+                        </div>
+                      </tr>
+                    </thead>
+                   <tbody>
+                      <tr>           
+                        <th scope="row">{{order.order.id}}</th>
+                        {% comment %} <td>{{notice_data.unit}}</td> {% endcomment %}
+                        <td>{{order.order.order_no}}</td>
+                        <td>{{order.order.order_date}}</td>
+                        <td>{{order.order.total_demand}}</td>
+                        <td>{{order.reason}}</td>
+                        <td>{{order.is_recommended}}</td>
+                        <td>{{order.is_approved}}</td>
+                <td><a href="{{order.order.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                <td><a href="{% url 'approve_writ' pk  %}"><img height=20px, src="{% static 'compliance/img/edit.png' %}" alt=""></a></td>
+                   </tr>                         
+                 </tbody>
+              </table>
+              {% comment %} <center><a href="{% url 'action' pk  %}"><button type="submit" class="btn btn-primary">Back</button></center></a> {% endcomment %}
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock  %}
+
+    
+    

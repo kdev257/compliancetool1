@@ -1,0 +1,42 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <title>Document</title>
+</head>
+<body style = 'background:aliceblue'>
+    <h5>Dear {{advisor.advisor.first_name}}</h5>
+    <h6>This is to inform you that a new notice has been created with following details at {{unit}} issued by {{authority}}</h6>
+    <div class= 'text text-secondary'>
+    <table style='border: 2px pink'>
+        <thead>
+          <tr style="color:blue;text-align:center;border: 2px solid pink;">            
+            <th scope="col">Year</th>
+            <th scope="col">Notice No</th>
+            <th scope="col">Notice Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Reply By Date</th>
+            <th scope="col">Appearance Date</th><br>          
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">{{year}}</th>
+            <td>{{notice_no}}</td>
+            <td>{{notice_date}}</td>
+            <td>{{description}}</td>
+            <td>{{desired_date_of_reply}}</td>
+            <td>{{date_of_appearance}}</td>            
+          </tr>
+          </tbody>
+      </table>
+    </div>
+    <h5>You are requested to suggest way forward in the matter. For further details pls log into the portal</h5>
+
+    <h3>{{created_by.first_name}} {{created_by.last_name}}</h3>
+
+
+    
+</body>
+</html>

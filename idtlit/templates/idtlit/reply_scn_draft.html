@@ -1,0 +1,30 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<body>
+    <center><p ><h5 class='text-warning'>The Scheduled date for reply for this SCN is {{scn.reply_by_date}}</h4></p></center></h5></p></center>
+    <div class='container'>
+        <div class='row'>
+            <div class='sm-col-6 offset-2'>
+                <form method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                    <table>
+                        <h6>{{ form.as_table }}<h6>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+             <div>
+                <div class="sm-col-12 text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>                        
+                 </div>
+              </form>
+            </div>
+        </div>
+    </div>
+    
+</body>
+{% endblock main-content %}
+</html>

@@ -1,0 +1,74 @@
+<div class="col-sm-12">                
+    <nav class="navbar navbar-expand-sm bg-info navbar-light">
+      <ul class="navbar-nav">
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User Management</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'createuser' %}">Tax Team Login</a>
+            <a class="dropdown-item" href="{% url 'userlogin' %}">User Login</a>
+            <a class="dropdown-item" href="#">Consultants Login</a> -->
+            <li class="nav-item active">
+          <a class="nav-link" href="{% url 'recent' %}">Recent</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Advisory</a>
+          <div class="dropdown-menu"  aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'advisory' %}">Advisory Page</a>
+            <a class="dropdown-item" href="#">Seek Advice</a>
+            <a class="dropdown-item" href="{% url 'showquerydata' %}">Show Open Queries</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Litigation
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#"
+              >Notices</a>
+              {% comment %} <a class="dropdown-item" href="{% url 'notice' %}">Create  Notice(user)</a> {% endcomment %}
+              {% comment %} <a class="dropdown-item" href="{% url 'openproceeding' %}"
+              >Open Proceedings(User)</a> {% endcomment %}
+              {% comment %} <a class="dropdown-item" href="{% url 'showdata' %}">Open Notice(advisors)</a> {% endcomment %}
+              <a class="dropdown-item" href="{% url 'view_notice_location_user' %}">View Notice(Location User)</a>
+              <a class="dropdown-item" href="{% url 'view_notice_advisor' %}">View Notice Advisors</a>
+              {% comment %} <a class="dropdown-item" href="{% url 'showorder' %}">Ass Order(Adv)</a> {% endcomment %}
+              <a class="dropdown-item" href="#">Appellate Appeal</a>
+              <a class="dropdown-item" href="#">Tribunal Appeal</a>
+              <a class="dropdown-item" href="#">Revision before High Court</a>
+              <a class="dropdown-item" href="#">SLP Supreme Court</a>
+              <a class="dropdown-item" href="#">Writ Petition High Court</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>                    
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Compliance</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Goods and Service Tax &raquo</a>
+                  <a class="dropdown-item" href="#">Custom</a>
+                  <a class="dropdown-item" href="#">Income Tax</a>
+                  <a class="dropdown-item" href="#">Transfer</a>
+                  <a class="dropdown-item" href="#">Value Added Tax</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Taxbot</a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'pos' %}">POS-NonSpecified</a>
+                    <a class="dropdown-item" href="{% url 'poss' %}">POS-Specified</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </div>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'taxnews' %}">News</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+      </ul>
+    </nav>          
+</div>

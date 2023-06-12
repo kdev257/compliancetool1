@@ -1,0 +1,25 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<body>    
+    <h5 class='text text-danger text-center'>Disputed Tax in this order is Rs. {{add}}</h5>
+    <h5 class='text text-danger text-center'>Admitted Tax in this order is Rs. {{adm}}</h5>
+    <div class='container'>
+        <div class='row'>
+            <div class='col-sm-10 offset-2'>
+                <form method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                   <h5>{{ form.as_p }}</h5>  
+             <div>
+                <div class="sm-col-12 text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>                        
+                 </div>
+              </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock main-content %}
+</html>

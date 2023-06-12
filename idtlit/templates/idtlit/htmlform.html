@@ -1,0 +1,43 @@
+{% include 'compliance/base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class = 'card shadow m-5'>
+        <div class = 'card-body p-2'>
+            <h5 class='text-danger' style='border-bottom: 2px solid orange'>Update Additions</h5>
+            <div class='container-fluid'>
+                <form method ='POST'>
+                    {% csrf_token %}
+                    <div class='form-row'>
+                        <div class='col-sm-4'>
+                            <div class= 'form-group'>
+                                <label>Issue</label>
+                                <input type="text" name ='issue' class="form-control" 				 						value={{idtlit.proposedaddition.issue}}>
+                            </div>
+                        </div>
+                        <div class='col-sm-4'>
+                            <div class= 'form-group'>
+                                <label>Proposed Addition</label>
+                                <input type="text" name ='proposedaddition' class="form-control" 					 						value={{idtlit.proposedaddition.proposed_addition}}>
+                            </div>
+                        </div>
+                        <div class='col-sm-4'>
+                            <div class= 'form-group'>
+                                <label>Actual Addition</label>
+                                <input type="text" name ='actualaddition' class="form-control">
+                            </div>
+                        </div>
+                    <div class='text-center'>
+                        <button type="submit" class="btn btn-primary ">Submit</button>
+                    </div>
+                </form>               
+
+</body>
+</html>

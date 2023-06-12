@@ -1,0 +1,49 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}            
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        {% comment %} <th scope="col">Proceeding ID</th> {% endcomment %}
+                        <th scope="col">SCN No</th>
+                        <th scope="col">SCN Date</th>
+                        <th scope="col">Issue</th>
+                        <th scope="col">Proposed Additions</th>
+                        <th scope="col">Proceeding Type</th>
+                        <th scope="col">Status</th>                        
+                        <div>
+                        <th scope="col" class="text-center">View</th>
+                        </div>
+                      </tr>
+                    </thead>
+                   <tbody>
+                    {% for pa in pa  %}
+                      <tr>           
+                        <th scope="row">{{pa.id}}</th>
+                        {% comment %} <th> {{pa.proceeding}}</th> {% endcomment %}
+                        <td>{{pa.scn_ref}}</td>
+                        <td>{{pa.scn_ref.scn_date}}</td>
+                        <td>{{pa.issue}}</td>
+                        <td>{{pa.proposed_addition}}</td>
+                        <td>{{pa.proceeding.proceeding_type}}</td>
+                        <td>{{pa.proceeding.status}}</td>
+                
+                <td><a href="{{pa.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                <td><a href="{% url 'addition' pk pa.id %}"><img height=20px, src="{% static 'compliance/img/edit.png' %}" alt=""></a></td>
+                   </tr>   
+                   {% endfor %}                      
+                 </tbody>
+              </table>
+              <center><a href="{% url 'action' pk %}"><button type="submit" class="btn btn-primary">Back</button></a></center>
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock  %}
+
+    
+    

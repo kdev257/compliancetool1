@@ -1,0 +1,32 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+
+{% block title %}User Registration{% endblock title %}
+
+{% block main-content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <form method="POST" novalidate >
+                {% csrf_token %}
+                {% for fm in form %}
+                {{fm.label_tag}}{{fm}}{{form.errors|striptags}} 
+                {% endfor %}
+                      <div>
+                        <div class="sm-col-12 text-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <a href="{% url 'userlogin' %}" class='btn btn-primary'>Login</a>
+
+                            
+                        </div>                        
+                    </div>
+               </form>
+                                       
+            <br><br><br><br><br> 
+        </div>
+    </div>
+</div>
+   
+{% endblock main-content %}
+    
+    

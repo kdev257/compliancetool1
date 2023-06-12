@@ -1,0 +1,150 @@
+{% extends 'compliance/base.html' %}
+ {% load static %}
+  <head>
+    {% block navbar %}{% endblock navbar %} 
+{% block main-content %}
+  <body>
+    <div class='text-right '>    
+      <a href="{% url 'hcwrit_home' pk %}"><button type='submit' class='btn btn-warning'>File writ</button></a>    
+      <a href="{% url 'runmastertemp' pk %}"><button type='submit' class='btn btn-success'>File Appeal</button></a>
+  </div>  
+    <div class='container-fluid'>
+        <div class='row'>
+              <h3><ul class="nav nav-tabs" id="myTab" role="tablist">
+                    {% if not adv %}
+                    {% if not th %}
+                    <li class="nav-item" role="presentation">
+                      <a href="{% url 'appearance' pk %}"><button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Hearings</button></a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% if not adv %}
+                    {% if not th %}
+                    <li class="nav-item" role="presentation">
+                     <a href="{% url 'create_scn' pk %}"><button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Show Cause Notice</button></a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% if adv %}
+                    {% if not th %}
+                    <li class="nav-item" role="presentation">
+                     <a href="{% url 'draft_scn_reply' pk %}"> <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Reply_SCN_Draft</button></a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% if not adv %}
+                    {% if not th %}
+                    <li class="nav-item" role="presentation">
+                     <a href="{% url 'final_scn_reply' pk %}"> <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Upload_SCN_Reply</button></a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    {% if not adv %}
+                    {% if not th %}
+                    <li class="nav-item" role="presentation">
+                      <a href="{% url 'assessment_order' pk %}"><button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Assessment Order</button></a>
+                    </li>
+                    {% endif %}
+                    {% endif %}
+                    
+                  </ul></h3>
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3">
+          <h4><div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a href="{% url 'view_notice' pk %}"><button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">View Initial Notice</button></a>
+           {% comment %} <a href="{% url 'view_adjournment' pk  %}"><button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Adjounment Data</button></a> {% endcomment %}
+           <a href="{% url 'view_hearing' pk %}"><button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">View Hearing Data</button></a>
+           <a href="{% url 'view_scn' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Show Cause Notice</button></a>
+           <a href="{% url 'view_proposed_additions' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Proposed Additions</button></a>
+            <a href="{% url 'view_scn_reply_draft' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Draft SCN Reply</button></a>
+            <a href="{% url 'view_scn_reply_final' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Final SCN Reply</button></a>
+            <a href="{% url 'view_order' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Assessment Order</button></a></h3>
+            <div>
+         </div>
+      </div>
+      <div class="col-sm-4 case-data">
+          <h1>Case Summary Data</h1>
+          Unit : {{pi.unit}} <br>
+          Initial Notice no : {{pi.notice_no}} <br>
+          Initial Notice Date : {{pi.notice_date}}<br>
+          Initial Notice Type : {{pi.notice_type}}<br>        
+          Show Cause Notice No: {{scn.scn_no}} <br>
+          Show Cause Notice date: {{scn.scn_date}} <br>
+          Proposed Additions: {{scn.proposed_additions}} <br>
+          Order_no/Date : {{order.order_no}}/{{order.order_date}} <br>
+          Demand : {{order.total_demand}}
+          </div>
+          <div class='col-sm-5'>
+            <div>    
+              <canvas id="myChart"
+              aria-label='chart'
+              role = 'img'
+              width = "500"
+              height = "300"
+              ></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            
+            <script>
+              const ctx = document.getElementById('myChart');           
+              new Chart(ctx, {
+                type: 'bar',
+                data: {
+                  labels: [{% for p in pad %}'{{p.issue}}',{% endfor %}], 
+                  datasets: 
+                  [                   
+                  {
+                    label:'Proposed Additions',
+                    backgroundColor:['green'],
+                    borderWidth: 1,
+                    data: [{% for p in pad %}{{p.proposed_addition}},{% endfor %}]
+                  },
+                  {            
+                    label:'Actual Additions',
+                    backgroundColor:['red'],
+                    borderWidth: 1,    
+                    data: [{% for add in addition %}{{add.total_additions}},{% endfor %}]
+                }
+
+                ]
+                },
+               options: {
+                  responsive:false,
+                  display: true,                  
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                }
+              });
+            </script>
+          </div>
+      </div>      
+     </div>
+    <div> 
+   
+      {% endblock main-content %}  
+    </body>
+</html>

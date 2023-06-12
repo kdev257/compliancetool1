@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}
+<body>    <center><h5 class='text text-warning'>Pls give issue-wise break up of Proposed addition of {{ta.proposed_additions}}</h5></center>
+  <center><p class='text text-primary'>{{tp}}</p></center>
+        <div class='container'>
+            <div class="row">
+             <div class="col-md-12 offset-0.5">
+                <form  method="POST" novalidate enctype="multipart/form-data">                
+                    {% csrf_token %}
+                    <table>
+                        <h6>{{ form.as_table }}<h6>
+                            <tr>
+                                <td>&nbsp;</td>
+                            </tr>
+                        </table>
+               <center> <button type="submit" class="btn btn-primary btn-lg">Submit</button></center>
+              <center> <button type="submit" class="btn btn-warning btn-lg"> <a href="{% url 'view_notice_location_user' %}">Back</a></button></center>
+            </div>            
+         </div>        
+        </div>
+    </form>
+</body>
+{% endblock main-content %}
+</html>

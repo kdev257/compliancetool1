@@ -1,0 +1,58 @@
+{% extends 'compliance/base.html' %}
+ {% load static %}
+  <head>
+{% block main-content %}
+  <body>    
+    <div class='container-fluid'>
+        <div class='row'>
+          <div class="col-sm-12">
+            <h5 class='text text-warning text-center'>Welcome to Writ Page</h5>            
+            <h5><ul class="nav nav-tabs" id="myTab" role="tablist">
+              {% if adv %}
+              {% if not th %}
+              <li class="nav-item" role="presentation">
+                <a href="{% url 'view_order_for_writ' pk   %}"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Recommend Writ</button></a>
+              </li>{% endif %}{% endif %}
+              {% if th %}
+              <li class="nav-item" role="presentation">
+                <a href="{% url 'view_order_for_writ_approval' pk %}"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Approve writ</button></a>{% endif %}
+              </li>
+              {% if  adv %}
+              <li class="nav-item" role="presentation">
+                <a href="{% url 'as_filed_appeal' pk %}"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">As Filed Writ</button></a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a href="#"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Upload Counter</button></a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a href="#"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Upload Rejoinder</button></a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a href="{% url "appeal_hearing" pk %}"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Hearings</button></a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <a href="{% url 'appellate_order' pk %}"><button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Writ Order</button></a>
+              </li>{% endif %}
+          </ul></h5>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-3">
+            <h4><div class="d-flex align-items-start">
+              <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a href="{% url 'view_notice' pk %}"><button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">View Initial Notice</button></a>
+             {% comment %} <a href="{% url 'view_adjournment' pk  %}"><button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Adjounment Data</button></a> {% endcomment %}
+             <a href="{% url 'view_hearing' pk %}"><button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">View Hearing Data</button></a>
+             <a href="{% url 'view_scn' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Show Cause Notice</button></a>
+             <a href="{% url 'view_proposed_additions' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Proposed Additions</button></a>
+              <a href="{% url 'view_scn_reply_draft' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Draft SCN Reply</button></a>
+              <a href="{% url 'view_scn_reply_final' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Final SCN Reply</button></a>
+              <a href="{% url 'view_order' pk %}"><button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">View Assessment Order</button></a></h3>
+              <div>
+           </div>
+        </div>
+    </div>
+  </body>
+ {% endblock main-content %}
+</html>

@@ -1,0 +1,48 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}            
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">SCN_No</th>
+                        <th scope="col">SCN_Date</th>
+                        <th scope="col">SCN_Gist</th>
+                        <th scope="col">Reply_By_Date</th>
+                        <th scope="col">Proposed_Addition</th>
+                        <th scope="col">Unit</th>                        
+                         <th scope="col" >View</th>
+                        </div>
+                      </tr>
+                    </thead>
+                    {% for a  in scn_data %}
+                   <tbody>
+                      <tr>
+                        <th scope="row">{{a.id}}</th>
+                        <td>{{a.scn_no}}</td>
+                        <td>{{a.scn_date}}</td>
+                        <td>{{a.scn_gist}}</td>
+                        <td>{{a.reply_by_date}}</td>
+                        <td>{{a.proposed_additions}}</td>
+                        <td>{{notice_data.unit}}</td>
+                        {% if a.upload.url %}
+                        <td><a href="{{a.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                        {% else %}
+                        <td>No File</td>
+                        {% endif %}
+                        {% endfor %}                        
+                       </tr>                         
+                 </tbody>
+              </table>
+              <center><a href="{% url 'action' pk  %}"><button type="submit" class="btn btn-primary">Back</button></center></a>
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock  %}
+
+    
+    

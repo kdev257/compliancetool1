@@ -1,0 +1,49 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block title %}{% endblock title %}
+{% block main-content %}            
+            <div class="col-sm-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">SCN_No</th>
+                        <th scope="col">Order_No</th>
+                        <th scope="col">Order_Date</th>
+                        <th scope="col">Demand</th>
+                        <th scope="col">Appeal_By_Date</th>     
+                        <th scope="col">Unit</th>                        
+                         <th scope="col" >View</th>
+                        </div>
+                      </tr>
+                    </thead>
+                    {% comment %} {% for a  in order %} {% endcomment %}
+                   <tbody>
+                      <tr>
+                        <th scope="row">{{order.id}}</th>
+                        <td>{{order.scn_ref}}</td>
+                        <td>{{order.order_no}}</td>          
+                        <td>{{order.order_date}}</td>                        
+                        <td>{{order.total_demand}}</td>                        
+                        <td>{{order.appeal_by_date}}</td>                        
+                        <td>{{notice_data.unit}}</td>
+                        {% if order.upload.url %}
+                        <td><a href="{{a.upload.url}}"><img height=20px, src="{% static 'compliance/img/eye.png' %}" alt=""></a></td>
+                        <td><a href="{% url 'runmastertemp' pk %}"><img height=20px, src="{% static 'compliance/img/edit.png' %}" alt=""></a></td>
+                        {% else %}
+                        <td>No File</td>
+                        {% endif %}
+                        {% comment %} {% endfor %}                         {% endcomment %}
+                       </tr>                         
+                 </tbody>
+              </table>
+              <center><a href="{% url 'action' pk  %}"><button type="submit" class="btn btn-primary">Back</button></center></a>
+            <br><br><br><br><br>
+        </div>
+    </div>
+</div>
+<div>
+{% endblock main-content %}
+
+    
+    
