@@ -1,0 +1,79 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block navbar %}{% endblock navbar %}
+{% block main-content %}
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <marquee
+            behavior="Scroll"
+            direction="Left"
+            scrollamount="8"
+            onmouseover="this.setAttribute('scrollamount', 4, 0);"
+            onmouseout="this.setAttribute('scrollamount', 8, 0);"
+            ><h3>Welcome to Faker India Tax Function Home Page</h3>
+        </marquee>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-5 offset-1">
+        <br />
+          <h4 class="bg-info text-center">Recent Developments</h4>
+        <div class="d-flex flex-column table-hover">
+          <marquee
+            behavior="scroll"
+            direction="UP"
+            scrollamount="15"
+            onmouseover="this.setAttribute('scrollamount', 4, 0);"
+            onmouseout="this.setAttribute('scrollamount', 8, 0);"
+          >
+                <div class="p-2 bg-light text-success">
+                    {% for nw in news %}
+                    {% if nw %}
+                    <p>{{nw.newstext}}</p>
+                    {% else %}
+                    {'No Record Found'}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+           </marquee>
+            <br />
+          <div>
+        </div>
+    </div>
+  </div>
+<div class="col-sm-5">
+        <br />
+        <h4 class="bg-info text-center">High Court/Supreme Court Latest</h4>
+        <div class="d-flex flex-column table-hover">
+          <marquee
+            behavior="scroll"
+            direction="UP"
+            scrollamount="13"
+            onmouseover="this.setAttribute('scrollamount', 4, 0);"
+            onmouseout="this.setAttribute('scrollamount', 8, 0);"
+          >
+            <div class="p-2 bg-light text-success">
+                {% for nw in tnews %}
+                  {% if nw %}
+                  <p>{{nw.newstext}}</p>
+                {% else %}
+                 {'No Record Found'}
+                {% endif %}
+                {% endfor %}               
+              </div>              
+            </div>
+          </marquee>
+        <br />
+          <div>           
+         <div>
+       </div>
+      </div>
+    </div>
+</div>    
+      {% endblock main-content %}
+      {% block footer %}
+      {% include 'compliance/footer.html' %}
+      {% endblock footer %}

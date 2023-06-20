@@ -98,14 +98,12 @@ class Appellate_Order_Form(forms.ModelForm):
 class Apellate_Order_Details_Form(forms.ModelForm):
     class Meta:
         model =Appellate_Order_Details
-        fields = 'issue','demand','disputed_tax','is_disputed','reason','is_remanded',
+        fields = 'issue','demand','reason','is_remanded',
 
         widgets={            
             'issue':forms.Select(attrs={'class':'form-control'}),
             'demand':forms.NumberInput(attrs={'class':'form-control'}),
-            'disputed_tax':forms.NumberInput(attrs={'class':'form-control'}),
-            'reason':forms.Textarea(attrs={'class':'form-control'}),
-            'is_disputed':forms.CheckboxInput(attrs={'class':'form-control'}),
+            'reason':forms.Textarea(attrs={'class':'form-control','rows':3,'columns':20}),            
             'is_remanded':forms.CheckboxInput(attrs={'class':'form-control'}),
         }
 class Apellate_Order_Edit_Form(forms.ModelForm):

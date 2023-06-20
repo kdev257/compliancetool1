@@ -1,0 +1,56 @@
+{% extends 'compliance/base.html' %}
+{% load static %}
+{% block main-content %}
+<div class="container">
+  <center><div class="row">
+        <div class="col-md-4">
+            <div class="card m-5" style="width: 18rem;">
+                <img class="card-img-top" src="{% static 'compliance/img/login.png' %}" alt="Card image cap" height=175>
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Tax Head Zone</h5>
+                    <p class="card-text">Tax Head is authorized to view all the content of the site, though he has authorization of approve all the recommended actions</p>
+                    {% if th %}
+                    <a href="{% url 'view_notice_advisor' %}" class="btn btn-primary">Go somewhere</a>
+                    {% elif not adv %}
+                    <a href="" class="btn btn-primary">Not Authorized</a>
+                    {% else %}
+                    <a href="" class="btn btn-primary">Not Authorized</a>
+                    {% endif %}                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card m-5 " style="width: 18rem;">
+                <img class="card-img-top" src="{% static 'compliance/img/login.png' %}" alt="Card image cap" height='175'>
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Advisor Zone</h5>
+                    <p class="card-text">Advisor can view all the cases pertaining to their function expertise. They can recommend actions for approval of Tax Head</p>
+                    {% if adv %}
+                    <a href="{% url 'view_notice_advisor' %}" class="btn btn-primary">Go somewhere</a>
+                    {% elif not th %}
+                    <a href="#" class="btn btn-primary">Not Authorized</a>
+                    {% else %}
+                    <a href="#" class="btn btn-primary">Not Authorized</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card m-5 " style="width: 18rem;">
+                <img class="card-img-top" src="{% static 'compliance/img/login.png' %}" alt="Card image cap" height='175'>
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Location User's Zone</h5>
+                    <p class="card-text">Location user can view cases of their jurisdiction and can perform authorized tasks. First point contact their job is to intiate the cases of their jurisdiction</p>                    
+                    {% if th %}
+                    <a href="#" class="btn btn-primary">Not Authorized</a></center>
+                    {% elif adv %}   
+                    <a href="#" class="btn btn-primary">Not Authorized</a></center>
+                    {% else %}                 
+                    <a href="{% url 'view_notice_location_user' %}" class="btn btn-primary">Go to Notices</a></center>
+                    {% endif %}                    
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+      {% endblock main-content %}

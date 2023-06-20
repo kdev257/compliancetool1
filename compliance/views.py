@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect
 from .forms import RecentNewsForm,TaxNewsForm,UserQueryForm,UserQueryReplyForm,AuthenticationForm,CreateUserForm,UserProfileForm
 from .models import Advisor, RecentNews,TaxNews,UserQueryNew,TaxUserClass,Act,Unit
@@ -11,6 +11,19 @@ from django.core.mail import send_mail
 from django.conf import settings
 # Create your views here.
 
+def landingpage(request):
+    try:
+        th =Advisor.objects.filter(tax_cat='4',advisor=request.user.id).exists()
+        print(th)        
+    except:
+        pass
+    try:
+        adv =Advisor.objects.filter(advisor=request.user.id).exclude(tax_cat='4').exists()
+        print(adv)
+    except:
+        pass
+    return render(request,'compliance/landingpage.html',{'th':th,'adv':adv})
+
 def userloginview(request):
     if request.method=='POST':
         fm = AuthenticationForm(request=request,data=request.POST)
@@ -21,16 +34,16 @@ def userloginview(request):
             if user is not None:
                 login(request,user)
                 messages.success(request,(f'Login Successful...Welcome {user}'))
-                # if user.is_authenticated:
-                #     return HttpResponseRedirect('home')
                 user=User.objects.filter(username=user)
                 for u in user:
                     user_id=u.id
                     # print(u.id)
                     if TaxUserClass.objects.filter(user_id=user_id).exists():
-                        return HttpResponseRedirect('/home/')
+                        return HttpResponseRedirect('/landingpage/')
                     else:
                         return HttpResponseRedirect('/userprofile/')
+            else:
+                messages.error(request,'Something Went Wrong, Pls Try Again')
     else:
         fm=AuthenticationForm()
     return render(request,'compliance/userlogin.html',{'form':fm}) 
@@ -56,12 +69,12 @@ def userprofile(request):
         return HttpResponseRedirect('/')
 
 def homepage(request):    
-    if request.user.is_authenticated:
-        news= RecentNews.objects.all()
-        tnews=TaxNews.objects.all()
-        return render(request,'compliance/base.html',{'news':news,'tnews':tnews})
-    else:
-        return HttpResponseRedirect('/')
+    # if request.user.is_authenticated:
+    news= RecentNews.objects.all()
+    tnews=TaxNews.objects.all()
+    return render(request,'compliance/home.html',{'news':news,'tnews':tnews})
+    # else:
+    # return HttpResponseRedirect('/')
 
 def recentnews(request):
     if request.method=='POST':
@@ -174,3 +187,8 @@ def createuserview(request):
 def userlogout(request):
     logout(request)
     return HttpResponseRedirect('/')        
+
+def loadfacebook(request):
+     path='https://www.facebook.com/'
+     return redirect(path)
+    

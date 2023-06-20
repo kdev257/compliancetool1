@@ -9,13 +9,7 @@
              <div class="col-md-12 offset-0.5">
                 <form  method="POST" novalidate enctype="multipart/form-data">                
                     {% csrf_token %}
-                    <table>
-                        <h6>{{ form.as_table }}<h6>
-                            <tr>
-                                <td>&nbsp;</td>
-                            </tr>
-                        </table>
-        
+                     <h6>{{ form.as_p}}<h6>                            
                <center> <button type="submit" class="btn btn-primary btn-lg">Submit</button></center>
             </div>            
          </div>        

@@ -1,3 +1,5 @@
+from .models import Initial_Notice, Hearing
+import sqlite3
 def check_total_additions(total,*args):
     for args in args:
         total = total-args
@@ -9,4 +11,3 @@ def sum_addition(*args):
         sum += args
     return sum
 
-# print(sum_addition(110,90))

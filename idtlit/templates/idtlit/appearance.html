@@ -3,28 +3,41 @@
 {% block title %}{% endblock title %}
 {% block main-content %}
 <body>
-    <center><h5 class='text text-warning'>The Date of Appearance in this matter is {{la.next_date}}|First Date {{pi.date_of_appearance}}</h5></center>
-    <div class='container'>
-        <div class='row'>
-            <div class='sm-col-6 offset-2'>
-                <form method="POST" novalidate enctype="multipart/form-data">                
-                    {% csrf_token %}
-                    <table>
-                        <h6>{{ form.as_table }}<h6>
-                            <tr>
-                                <td>&nbsp;</td>
-                            </tr>
-                        </table>
-             <div>
-                <div class="sm-col-12 text-center">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                  </div>                        
-                 </div>
-              </form>
-            </div>
-        </div>
+  <form method="post"  novalidate enctype="multipart/form-data" class="row g-3 m-5">
+      {% csrf_token %}
+         {% for fm in form  %}
+           <div class="col-md-6">
+             <h5> {{fm.label_tag}}</h5>{{fm}}{{fm.errors|striptags}} <small class="form-text text-warning text-italic mb-4">
+              <h6 class >{{ fm.help_text }}</h6></small>
+              {% if messages %} 
+                  {% for message in messages %}
+                  <p {% if  message_tags %}
+                  class="alert alert-{{message_tag}} mb-5"
+                {% endif %}></p>
+                  {% endfor %} 
+          {% endif %}
+      </div>
+    {% endfor %}
+
+    <div class="col-12 mt-5">
+    <center> <button type="submit" class="btn btn-primary">Submit</button></center>
     </div>
-    
+  </form>
+    <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+<!-- Your HTMX code -->
+<script>
+  // Add an htmx trigger to the is_complete field that updates the next_date field
+  document.querySelector('#id_is_complete').addEventListener('change', function() {
+    var nextDateField = document.querySelector('#id_next_date');
+    if (this.checked) {
+      // If is_complete is checked, hide the next_date field
+      nextDateField.hidden = true;
+    } else {
+      // Otherwise, show the next_date field
+      nextDateField.hidden = false;
+    }
+  });
+</script>
 </body>
 {% endblock main-content %}
 </html>

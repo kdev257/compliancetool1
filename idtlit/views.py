@@ -3,6 +3,7 @@ from django_q.tasks import async_task
 from .forms import *
 from . models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core import mail
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -10,7 +11,7 @@ from django.utils.html import strip_tags
 from compliancetool1.settings import EMAIL_HOST_USER
 from django.conf import settings
 from compliance.models import User,Advisor
-from .functions import check_total_additions    
+from .functions import check_total_additions  
 # from django.forms import modelformset_factory
 # Create your views here.
 def action(request,pk):
@@ -50,7 +51,7 @@ def appearance(request,pk):
     path = path.split('/')
     pk = int(path[3])    
     pi = Initial_Notice.objects.get(proceeding=pk)
-    if Hearing.objects.last() is None:
+    if Hearing.objects.filter(proceeding=pk).last() is None:
         la= pi.date_of_appearance
     else:
         la = Hearing.objects.filter(proceeding=pk).last()
@@ -70,25 +71,32 @@ def appearance(request,pk):
                 return redirect('action',pk)
             except:
                 messages.error(request,'Something Went Wrong Pls Try Again')
-    else:                
-        form= Hearing_Form()
+    else:
+        initial = {'hearing_date': la}         
+        form= Hearing_Form(initial=initial)
     return render(request,('idtlit/appearance.html'),{'form':form,'la':la,'pi':pi,'pk':pk})
 
+@login_required
 def create_scn(request,pk):
     path = request.path
     path = path.split('/')
-    pk = int(path[3])             
-    if request.method == 'POST':
-        form = SCN_Form(request.POST,request.FILES)
-        if form.is_valid():
-            instance=form.save(commit=False)
-            instance.created_by= User.objects.get(id=request.user.id)
-            instance.proceeding = Initial_Notice.objects.get(proceeding=pk)
-            instance.save()
-        return redirect('update_proposed_addition', pk=pk)
-    else:            
-        form=SCN_Form()            
-    return render(request,'idtlit/create_scn.html',{'form':form})
+    pk = int(path[3])
+    complete = Hearing.objects.filter(proceeding=pk).last()
+    if complete.is_complete:             
+        if request.method == 'POST':
+            form = SCN_Form(request.POST,request.FILES)
+            if form.is_valid():
+                instance=form.save(commit=False)
+                instance.created_by= User.objects.get(id=request.user.id)
+                instance.proceeding = Initial_Notice.objects.get(proceeding=pk)
+                instance.save()
+            return redirect('update_proposed_addition', pk=pk)
+        else:            
+            form=SCN_Form()            
+        return render(request,'idtlit/create_scn.html',{'form':form})
+    else:
+        messages.error(request,'Hearing in this matter is not yet complete')
+    return redirect('action',pk)
 
 def update_proposed_additions(request,pk):
     path=request.path
@@ -144,7 +152,7 @@ def scn_reply_final(request,pk):
        path=request.path
        path = path.split('/')
        pk = int(path[3])    
-       scn = ShowCauseNotice.objects.filter(proceeding=pk)
+       scn = ShowCauseNotice.objects.filter(proceeding=pk).last()
        if request.method =='POST':
            form = Reply_Scn_Final_Form(request.POST,request.FILES)
            if form.is_valid():               
@@ -161,8 +169,9 @@ def scn_reply_final(request,pk):
                except:
                      messages.error(request,'Something Went wrong. Pls try Again')
        else:
-           form = Reply_Scn_Final_Form()
-       return render(request,'idtlit/reply_scn_final.html',{'form':form,'scn':scn,'pk':pk})
+           initial = {'reply_date' :scn.reply_by_date}
+           form = Reply_Scn_Final_Form(initial=initial)
+       return render(request,'idtlit/reply_scn_final.html',{'form':form,'pk':pk,'scn':scn})
 
 def order(request,pk):
        path=request.path
@@ -195,7 +204,8 @@ def additions(request,pk,id):
        order= Order.objects.get(proceeding=pk)
        ta = order.total_demand
        pa= ProposedAddition.objects.get(id=id)
-       tpa = tuple( Addition.objects.filter(order=pk).values_list('total_additions',flat=True))
+       tpa = tuple( Addition.objects.filter(order__proceeding=pk).values_list('total_additions',flat=True))
+       print(tpa)
        ba = check_total_additions(ta,*tpa)       
        if request.method== 'POST':           
            form = Additions_Form(request.POST)

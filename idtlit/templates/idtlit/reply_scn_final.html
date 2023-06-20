@@ -4,16 +4,16 @@
 {% block title %}{% endblock title %}
 {% block main-content %}
 <body>    
-    {% for scn  in scn  %}
+    {% comment %} {% for scn  in scn  %} {% endcomment %}
    <center><p><h4 class='text text-warning'>The Scheduled date for reply for this SCN is {{scn.reply_by_date}}</h4></p></center>
-    {% endfor %}
+    {% comment %} {% endfor %} {% endcomment %}
         <div class='container'>
             <div class="row">
              <div class="col-md-12 offset-0.5">
                 <form  method="POST" novalidate enctype="multipart/form-data">                
                     {% csrf_token %}
                     <table>
-                        <h6>{{ form.as_table }}<h6>
+                        <h6>{{ form.as_p }}<h6>
                             <tr>
                                 <td>&nbsp;</td>
                             </tr>

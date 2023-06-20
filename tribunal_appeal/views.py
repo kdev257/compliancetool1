@@ -27,7 +27,7 @@ def tribunal_home(request,pk): #This View triggers master template for appeal pr
         Appellate_Order.DoesNotExist
         pi=None
     try:
-        notice = Tribunal_Hearing_Notice.objects.get(order=pk)
+        notice = Tribunal_Hearing_Notice.objects.get(order__proceeding=pk)
     except:
         Tribunal_Hearing_Notice.DoesNotExist
         notice = None    
@@ -37,29 +37,29 @@ def tribunal_home(request,pk): #This View triggers master template for appeal pr
         Tribunal_Appeal_Hearing.DoesNotExist
         hearing= None
     try:
-        order= Tribunal_Order.objects.get(order=pk)
+        order= Tribunal_Order.objects.get(order__proceeding=pk)
     except:
         Tribunal_Order.DoesNotExist
         order=None
-    cash = Tribunal_Payment.objects.filter(order=pk) 
+    cash = Tribunal_Payment.objects.filter(order__proceeding=pk) 
     pad = ProposedAddition.objects.filter(proceeding=pk).order_by('id')   
     addition = Addition.objects.filter(order__proceeding=pk).order_by('issue')
-    aa = Appellate_Order_Details.objects.filter(order=pk).order_by('issue')
-    ta = Tribunal_Order_Details.objects.filter(order=pk)    
+    aa = Appellate_Order_Details.objects.filter(order__proceeding=pk).order_by('issue')
+    ta = Tribunal_Order_Details.objects.filter(order__proceeding=pk)    
     return render(request,('tribunal_appeal/tribunal_master_template.html'),{'pi':pi,'pk':pk,'adv':adv,'th':th,'notice':notice,'hearing':hearing,'order':order,'cash':cash,'pad':pad,'addition':addition,'aa':aa,'ta':ta})
 
 @login_required
 def tri_appeal_action(request,pk): 
     ''' This View show list of issue in order as uploaded by location to funtional head. The function mananger decided whether appeal is to be filed and recommend the action to tax head'''
-    add = Appellate_Order_Details.objects.filter(order=pk)
-    order = Appellate_Order.objects.get(order=pk).order 
-    app_order = Appellate_Order.objects.get(order=pk).order_no         
+    add = Appellate_Order_Details.objects.filter(order__proceeding=pk)
+    order = Appellate_Order.objects.get(order__proceeding=pk).order 
+    app_order = Appellate_Order.objects.get(order__proceeding=pk).order_no         
     return render(request,"tribunal_appeal/tri_appeal_actions.html",{'add':add,'pk':pk,'order':order,'app_order':app_order})
 
 @login_required
 def view_appeal_action(request,pk): 
     ''' This View is similar to above but it is meant for tax head to approve the recommendation given by functional manager show list of issue in order as uploaded by location to funtional head duly recommended by for approval to tax head.'''
-    add = Appellate_Order_Details.objects.filter(order=pk)     
+    add = Appellate_Order_Details.objects.filter(order__proceeding=pk)     
     return render(request,"tribunal_appeal/view_appeal_action.html",{'add':add,'pk':pk,'add':add})
 
 @login_required
@@ -109,7 +109,7 @@ def approve_appeal_action(request,pk,id):
 
 @login_required       
 def tribunal_draft_appeal(request,pk):
-        approved =list(Appellate_Order_Details.objects.filter(order=pk).values_list('is_approved',flat=True))
+        approved =list(Appellate_Order_Details.objects.filter(order__proceeding=pk).values_list('is_approved',flat=True))
         if not False in approved: 
             if request.method=='POST':
                 form = Draft_Tribunal_Appeal_Form(request.POST,request.FILES)
@@ -117,8 +117,8 @@ def tribunal_draft_appeal(request,pk):
                     try:
                         instance=form.save(commit=False)
                         instance.created_by=User.objects.get(id=request.user.id)
-                        instance.order = Order.objects.get(id=pk)
-                        instance.app_order= Appellate_Order.objects.get(order=pk)
+                        instance.order = Order.objects.get(proceeding=pk)
+                        instance.app_order= Appellate_Order.objects.get(order__proceeding=pk)
                         instance.save()
                         messages.success(request,'Draft Appeal Successfully Saved to database')
                         return redirect('tribunal_home',pk)
@@ -134,7 +134,7 @@ def tribunal_draft_appeal(request,pk):
 @login_required
 def tribunal_as_filed_appeal(request,pk):
     try:
-        if Tribunal_Appeal_Draft.objects.get(order=pk) is not None:       
+        if Tribunal_Appeal_Draft.objects.get(order__proceeding=pk) is not None:       
             if request.method=='POST':
                 form = As_Filed_Tribunal_Appeal_Form(request.POST,request.FILES)
                 if form.is_valid():
@@ -142,7 +142,7 @@ def tribunal_as_filed_appeal(request,pk):
                         instance=form.save(commit=False)
                         instance.created_by=User.objects.get(id=request.user.id)
                         instance.order = Order.objects.get(proceeding=pk)
-                        instance.app_order = Appellate_Order.objects.get(order=pk)
+                        instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
                         instance.save()
                         messages.success(request,'As Filed Appeal Successfully Saved to database')
                         return redirect('tribunal_payment',pk)
@@ -160,13 +160,13 @@ def tribunal_as_filed_appeal(request,pk):
         
 def create_hearing_notice(request,pk):
     try:
-        if Tribunal_Appeal_Final.objects.get(order=pk):
+        if Tribunal_Appeal_Final.objects.get(order__proceeding=pk):
             if request.method=='POST':
                 form = Hearing_Notice_Form(request.POST,request.FILES)
                 if form.is_valid():
                     instance=form.save(commit=False)
-                    instance.order = Order.objects.get(id=pk)
-                    instance.app_order = Appellate_Order.objects.get(order=pk)
+                    instance.order = Order.objects.get(proceeding=pk)
+                    instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
                     instance.created_by= User.objects.get(id=request.user.id)
                     instance.save()
                     messages.success(request,'Hearing Notice Successfully Added to Database')
@@ -182,21 +182,21 @@ def create_hearing_notice(request,pk):
 
 @login_required
 def tribunal_appeal_hearing(request,pk):
-    # hearing_date= Tribunal_Hearing_Notice.objects.get(order=pk).hearing_date
-    # la= hearing_date.strftime('%d-%m-%Y')
-    complete = Tribunal_Appeal_Hearing.objects.filter(order=pk).values_list('is_complete',flat=True).last()
+    hearing_date= Tribunal_Hearing_Notice.objects.get(order__proceeding=pk).hearing_date
+    la= hearing_date.strftime('%d-%m-%Y')
+    complete = Tribunal_Appeal_Hearing.objects.filter(order__proceeding=pk).values_list('is_complete',flat=True).last()
     if not complete:        
-        if Tribunal_Appeal_Hearing.objects.last() is None:
-            la= Tribunal_Hearing_Notice.objects.get(order=pk).hearing_date
+        if Tribunal_Appeal_Hearing.objects.filter(order__proceeding=pk).last() is None:
+            la= Tribunal_Hearing_Notice.objects.get(order__proceeding=pk).hearing_date
         else:
-            la = Tribunal_Appeal_Hearing.objects.filter(order=pk).last().next_date            
+            la = Tribunal_Appeal_Hearing.objects.filter(order__proceeding=pk).last().next_date            
         try:        
             if request.method =='POST':
                 form = Tribunal_Appeal_Hearing_Form(request.POST,request.FILES)
                 if form.is_valid():
                     instance=form.save(commit=False)
                     instance.created_by=User.objects.get(id=request.user.id)
-                    instance.app_order = Appellate_Order.objects.get(order=pk)
+                    instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
                     instance.order = Order.objects.get(proceeding=pk)
                     try:
                         instance.save()
@@ -205,7 +205,8 @@ def tribunal_appeal_hearing(request,pk):
                     except:
                         messages.error(request,'Something Went Wrong, Pls Try Again')
             else:
-                form = Tribunal_Appeal_Hearing_Form()
+                initial = {'hearing_date':la}
+                form = Tribunal_Appeal_Hearing_Form(initial=initial)
             return render(request,'app_appeal/appeal_hearing.html',{'form':form,'la':la})
         except:
             messages.error(request,'There in no Hearing Scheduled for this Appeal')
@@ -216,15 +217,15 @@ def tribunal_appeal_hearing(request,pk):
     
 @login_required
 def tribunal_order(request,pk):
-    demand = Appellate_Order.objects.get(order=pk).demand
-    if Tribunal_Appeal_Hearing.objects.filter(order=pk).last().is_complete:
+    demand = Appellate_Order.objects.get(order__proceeding=pk).demand
+    if Tribunal_Appeal_Hearing.objects.filter(order__proceeding=pk).last().is_complete:
         if request.method =='POST':
             form = Trinunal_Order_Form(request.POST,request.FILES)
             if form.is_valid():
                 instance=form.save(commit=False)
                 instance.created_by=User.objects.get(id=request.user.id)
-                instance.app_order = Appellate_Order.objects.get(order=pk)
-                instance.order = Order.objects.get(id=pk)
+                instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
+                instance.order = Order.objects.get(proceeding=pk)
                 try:
                     instance.save()
                     messages.success(request,'Tribunal Order Successfully Saved to  database')
@@ -239,17 +240,17 @@ def tribunal_order(request,pk):
     return redirect('tribunal_home',pk)
 
 def view_appellate_additions(request,pk):#View edits order_additions for updating appeal results
-    pi = Appellate_Order_Details.objects.filter(order=pk)
+    pi = Appellate_Order_Details.objects.filter(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_appellate_additions.html',{'pi':pi,'pk':pk})    
 
 @login_required
 def tribunal_order_details(request,pk,id):
-    disp = tuple(Tribunal_Order_Details.objects.filter(order=pk).values_list('demand',flat=True))       
-    admitted_tax=Tribunal_Order_Details.objects.aggregate(Sum('admitted_tax')) 
-    t_demand = Tribunal_Order.objects.get(order=pk).demand
-    admitted_tax=admitted_tax['admitted_tax__sum']
-    demand = t_demand-admitted_tax    
-    demand= check_total_additions(demand,*disp)    
+    disp = tuple(Tribunal_Order_Details.objects.filter(order__proceeding=pk).values_list('demand',flat=True))       
+    # admitted_tax=Tribunal_Order_Details.objects.aggregate(Sum('admitted_tax')) 
+    t_demand = Tribunal_Order.objects.get(order__proceeding=pk).demand
+    # admitted_tax=admitted_tax['admitted_tax__sum']
+    # demand = t_demand-admitted_tax    
+    demand= check_total_additions(t_demand,*disp)    
     pi = Appellate_Order_Details.objects.get(id=id)
     if request.method =='POST':
         form =Tribunal_Order_Details_Form(request.POST)
@@ -260,7 +261,7 @@ def tribunal_order_details(request,pk,id):
                 instance.disputed_tax=instance.demand-instance.admitted_tax
                 instance.created_by= User.objects.get(id=request.user.id)
                 instance.order = Order.objects.get(proceeding=pk)
-                instance.app_order = Appellate_Order.objects.get(order=pk)
+                instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
                 instance.save()
                 messages.success(request,'Data Save Successfully')
                 return redirect('view_appellate_additions',pk)
@@ -273,8 +274,8 @@ def tribunal_order_details(request,pk,id):
 
 @login_required    
 def tribunal_payment(request,pk):
-    add= tuple(Appellate_Order_Details.objects.filter(order=pk).values_list('demand',flat=True))
-    adm= tuple(Appellate_Order_Details.objects.filter(order=pk).values_list('admitted_tax',flat=True))
+    add= tuple(Appellate_Order_Details.objects.filter(order__proceeding=pk).values_list('demand',flat=True))
+    adm= tuple(Appellate_Order_Details.objects.filter(order__proceeding=pk).values_list('admitted_tax',flat=True))
     add = sum_addition(*add)    #sum disputed tax
     adm = sum_addition(*adm)    #sum admitted tax
     if request.method=='POST':
@@ -283,7 +284,7 @@ def tribunal_payment(request,pk):
             try:
                 instance=form.save(commit=False)
                 instance.order= Order.objects.get(proceeding=pk)
-                instance.app_order = Appellate_Order.objects.get(order=pk)
+                instance.app_order = Appellate_Order.objects.get(order__proceeding=pk)
                 instance.created_by= User.objects.get(id=request.user.id)
                 instance.save()
                 messages.success(request,'Payment uploaded to database')
@@ -295,23 +296,23 @@ def tribunal_payment(request,pk):
     return render(request,'app_appeal/payment.html',{'form':form,'add':add,'adm':adm})
         
 def view_tribunal_hearing_notice(request,pk):    
-    notice = Tribunal_Hearing_Notice.objects.get(order=pk)
+    notice = Tribunal_Hearing_Notice.objects.get(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_tribunal_hearing_notice.html',{'notice':notice,'pk':pk})           
 
 def view_tribunal_hearing_data(request,pk):    
-    notice = Tribunal_Appeal_Hearing.objects.filter(order=pk)
+    notice = Tribunal_Appeal_Hearing.objects.filter(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_tribunal_hearing_data.html',{'notice':notice,'pk':pk})           
 
 def view_tribunal_as_filed_appeal(request,pk):    
-    notice = Tribunal_Appeal_Final.objects.get(order=pk)
+    notice = Tribunal_Appeal_Final.objects.get(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_as_filed_tribunal_appeal.html',{'notice':notice,'pk':pk})           
 
 def view_tribunal_order(request,pk):    
-    notice = Tribunal_Order.objects.get(order=pk)
+    notice = Tribunal_Order.objects.get(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_tribunal_order.html',{'notice':notice,'pk':pk})           
 
 def view_tribunal_order_details(request,pk):    
-    notice = Tribunal_Order_Details.objects.filter(order=pk)
+    notice = Tribunal_Order_Details.objects.filter(order__proceeding=pk)
     return render(request,'tribunal_appeal/view_tribunal_order_details.html',{'notice':notice,'pk':pk})           
 
 
