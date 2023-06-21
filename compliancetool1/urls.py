@@ -11,7 +11,7 @@ urlpatterns = [
     path('idt/',include('idtlit.urls')),
     path('app/',include('app_appeal.urls')),
     path('cht/',include('chart.urls')),
-    path('hcw/',include('hcwrit.urls')),
+    path('hcw/',include('hcwrit.urls')),    
     path('tri/',include('tribunal_appeal.urls')),
     path('',views.homepage, name ='home'),
     path('landingpage/',views.landingpage,name='landingpage'),
@@ -26,8 +26,7 @@ urlpatterns = [
     path('deletequery/<int:id>',views.deletequery,name='deletequery'),
     path('showquery/',views.showquerydata,name='showquerydata'),
     path('queryreply/<int:id>',views.queryreply, name='queryreply'),
-    path('closequery/<int:id>',views.closequery,name='closequery'),
-    path('facebook/',views.loadfacebook,name='facebook'),
+    path('closequery/<int:id>',views.closequery,name='closequery'),    
     path('admin/', admin.site.urls),
     #dispmanageURLS
     # path('notice/',dis.noticedetails,name='notice'),

@@ -1,7 +1,7 @@
 {% extends 'compliance/base.html' %}
 {% load static %}
 {% block navbar %}{% endblock navbar %}
-{% block main-content %}
+{% block main-content %}  
 <div class="container-fluid">
     <div class="row">
       <div class="col-sm-12">
@@ -73,6 +73,13 @@
       </div>
     </div>
 </div>    
+<script>
+  $(document).ready(function() {
+     function disablePrev() { window.history.forward() }
+     window.onload = disablePrev();
+     window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+  });
+</script>
       {% endblock main-content %}
       {% block footer %}
       {% include 'compliance/footer.html' %}

@@ -9,20 +9,24 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.conf import settings
+from idtlit.functions import clear_session_history
+from django.contrib.sessions.models import Session
 # Create your views here.
 
 def landingpage(request):
-    try:
-        th =Advisor.objects.filter(tax_cat='4',advisor=request.user.id).exists()
-        print(th)        
-    except:
-        pass
-    try:
-        adv =Advisor.objects.filter(advisor=request.user.id).exclude(tax_cat='4').exists()
-        print(adv)
-    except:
-        pass
-    return render(request,'compliance/landingpage.html',{'th':th,'adv':adv})
+    if request.user.is_authenticated:
+        try:
+            th =Advisor.objects.filter(tax_cat='4',advisor=request.user.id).exists()
+        except:
+            pass
+        try:
+            adv =Advisor.objects.filter(advisor=request.user.id).exclude(tax_cat='4').exists()
+        except:
+            pass
+        return render(request,'compliance/landingpage.html',{'th':th,'adv':adv})
+    else:
+        messages.error(request,'Pls login to access the content')
+    return redirect('userlogin')
 
 def userloginview(request):
     if request.method=='POST':
@@ -36,8 +40,7 @@ def userloginview(request):
                 messages.success(request,(f'Login Successful...Welcome {user}'))
                 user=User.objects.filter(username=user)
                 for u in user:
-                    user_id=u.id
-                    # print(u.id)
+                    user_id=u.id                    
                     if TaxUserClass.objects.filter(user_id=user_id).exists():
                         return HttpResponseRedirect('/landingpage/')
                     else:
@@ -66,7 +69,8 @@ def userprofile(request):
             fm = UserProfileForm()
         return render(request,'compliance/userprofile.html',{'form':fm})
     else:
-        return HttpResponseRedirect('/')
+        messages.error(request,'Pls login to access the content')
+    return HttpResponseRedirect('userlogin')
 
 def homepage(request):    
     # if request.user.is_authenticated:
@@ -102,8 +106,7 @@ def taxnews(request):
 
 def advisory(request):
     if request.method=="POST":
-        user=User.objects.get(username=request.user)
-        print(user.email)
+        user=User.objects.get(username=request.user)        
         unit=TaxUserClass.objects.get(user_id=user.id)          
         fm=UserQueryForm(request.POST,request.FILES)
         if fm.is_valid():
@@ -114,8 +117,7 @@ def advisory(request):
             upload=fm.cleaned_data['upload']
             advisor=fm.cleaned_data['advisor']
             query=UserQueryNew(user_id=user.id,unit_id=unit.unit_id,query_date=querydate,act=act,tax_cat=taxcat,query=query1,upload=upload,advisor=advisor,status='Open')
-            query.save()
-            print(query)            
+            query.save()                       
             send_mail(subject=f'Intimation for New Query in litigation tool by {user.username}',message=query1,from_email=user.email,recipient_list=("shrma.kdev257@gmail.com",),fail_silently=False)                
             messages.success(request,'Query Submitted Successfully')
     else:
@@ -124,20 +126,24 @@ def advisory(request):
     return render(request,'compliance/advisory.html',{'form':fm,'queries':queries})
 
 def updatequery(request,id):
-    if request.method == 'POST':
-        pi = UserQueryNew.objects.get(pk=id)
-        fm = UserQueryForm(request.POST, instance=pi) 
-        if fm.is_valid():
-            pi.status='Open'
-            fm.save()        
-    else:
-        pi= UserQueryNew.objects.get(pk=id)
-        if pi.status=='Open' or pi.status=='Replied':
-            fm= UserQueryForm(instance=pi)
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            pi = UserQueryNew.objects.get(pk=id)
+            fm = UserQueryForm(request.POST, instance=pi) 
+            if fm.is_valid():
+                pi.status='Open'
+                fm.save()        
         else:
-            message ='You Cannot update a Closed Query'
-            return HttpResponse(message)
-    return render(request,'compliance/updatequery.html',{'form':fm})
+            pi= UserQueryNew.objects.get(pk=id)
+            if pi.status=='Open' or pi.status=='Replied':
+                fm= UserQueryForm(instance=pi)
+            else:
+                message ='You Cannot update a Closed Query'
+                return HttpResponse(message)
+        return render(request,'compliance/updatequery.html',{'form':fm})
+    else:
+        messages.error(request,'Pls login to access the content')
+    return redirect('userlogin')
 
 def closequery(request,id):
     pi = UserQueryNew.objects.get(pk=id)
@@ -184,11 +190,14 @@ def createuserview(request):
         fm = CreateUserForm()
     return render(request,'compliance/usercreation.html',{'form':fm})
 
-def userlogout(request):
-    logout(request)
-    return HttpResponseRedirect('/')        
-
-def loadfacebook(request):
-     path='https://www.facebook.com/'
-     return redirect(path)
+def userlogout(request): 
+    session_key = request.session.session_key
+    session = Session.objects.get(session_key=session_key)
+    session_data = session.get_decoded()
+    print(session_data)
+    session_data.clear()
+    session.save()
+    clear_session_history(session_key)
+    logout(request)    
+    return redirect('userlogin') 
     

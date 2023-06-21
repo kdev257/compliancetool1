@@ -1,5 +1,5 @@
-from .models import Initial_Notice, Hearing
-import sqlite3
+from django.contrib.sessions.models import Session
+
 def check_total_additions(total,*args):
     for args in args:
         total = total-args
@@ -11,3 +11,9 @@ def sum_addition(*args):
         sum += args
     return sum
 
+def clear_session_history(session_key):
+    session = Session.objects.get(session_key=session_key)
+    session_data = session.get_decoded()
+    # Clear the session data
+    session_data.clear()
+    session.save()

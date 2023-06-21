@@ -8,13 +8,14 @@
     <title>User Login</title>
     <link rel="stylesheet" href="{% static 'compliance/css/bootstrap.css' %}" />
     <br><br>
-    <img src="{% static 'compliance/img/fakery.png' %}" alt="Pernod">
-    <br><br><br> 
-    <h3 class='text-center text-info'>Welcome to Fakery India</h3>
-    <h4 class='text-center text-warning'>Pls login to access the content</h4>
-
+    <img src="{% static 'compliance/img/fakery.png' %}" alt="Pernod">    
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">         
+            <h3 class='text-center text-info'>Welcome to Fakery India</h3>
+             <h4 class='text-center text-warning'>Pls login to access the content</h4>
     <style>
         label{
             text-align: center;
@@ -39,11 +40,8 @@
             padding: 5px;
         }
     </style>
-    <br><br>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <form class="form-control" method="POST">   
+    <br><br>    
+                    <form class="form-control" method="POST">   
                     {% csrf_token %}
                     {% for fm in form %}
                     {{fm.label_tag}}{{fm}}{{fm.errors|striptags}} <br><br>
@@ -62,13 +60,10 @@
                      {% endif %}
     
                    </form>
-       
-                <br>
-                <a href="{% url 'createuser' %}">New User?</a>
+                   <a href="{% url 'home' %}"><button  type="submit" class="btn btn-lg btn-warning ">home</button></a>
             </div>
         </div>
     </div>
-    
     <script src="{%static 'compliance/js/jquery.js' %}"></script>
     <script src="{%static 'compliance/js/popper.js' %}"></script>
     <script src="{%static 'compliance/js/bootstrap.js' %}"></script>
